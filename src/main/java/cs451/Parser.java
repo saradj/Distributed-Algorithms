@@ -1,10 +1,11 @@
 package cs451;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
 
-    private String[] args;
+    private final String[] args;
     private long pid;
     private IdParser idParser;
     private HostsParser hostsParser;
@@ -76,9 +77,9 @@ public class Parser {
         return hostsParser.getHosts();
     }
 
-    public Host myHost(){
-        for(Host host: hosts()){
-            if(host.getId() == myId())
+    public Host myHost() {
+        for (Host host : hosts()) {
+            if (host.getId() == myId())
                 return host;
         }
         throw new IllegalArgumentException("The ID of the current Host is not in the file provided! \nid: " + myId());
@@ -110,6 +111,22 @@ public class Parser {
 
     public String config() {
         return configParser.getPath();
+    }
+
+    public int getNumberOfMessages() {
+        return configParser.getNumberOfMessages();
+    }
+
+    public List<Integer> getDependencies() {
+        List<String> dependencies = configParser.getDependencies();
+        List<Integer> myIntDependencies = new ArrayList<Integer>();
+        int myId = this.myId();
+        String[] myDependencies = dependencies.get(myId).split("\\s+");
+        System.out.println("My dep " + dependencies.get(myId) + " size " + myDependencies.length);
+        for (int i = 1; i < myDependencies.length; i++) {
+            myIntDependencies.add(Integer.parseInt(myDependencies[i]));
+        }
+        return myIntDependencies;
     }
 
 }

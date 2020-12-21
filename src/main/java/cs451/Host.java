@@ -10,6 +10,7 @@ public class Host {
     private int id;
     private String ip;
     private int port = -1;
+    private InetAddress inetAddress;
 
     public boolean populate(String idString, String ipString, String portString) {
         try {
@@ -21,6 +22,7 @@ public class Host {
             } else {
                 ip = InetAddress.getByName(ipTest.split(IP_START_REGEX)[0]).getHostAddress();
             }
+            inetAddress = InetAddress.getByName(ip);
 
             port = Integer.parseInt(portString);
             if (port <= 0) {
@@ -53,11 +55,16 @@ public class Host {
         return port;
     }
 
+    public InetAddress getInetAddress() {
+        return inetAddress;
+    }
+
+
     @Override()
     public boolean equals(Object obj) {
         if (obj instanceof Host) {
             Host peer = (Host) obj;
-            return peer.ip.equals(this.ip) && peer.port == this.port && peer.id==this.id;
+            return peer.ip.equals(this.ip) && peer.port == this.port && peer.id == this.id;
         }
         return false;
     }

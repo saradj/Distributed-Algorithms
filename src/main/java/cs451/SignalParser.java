@@ -1,10 +1,6 @@
 package cs451;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class SignalParser {
@@ -27,7 +23,6 @@ public class SignalParser {
         if (signal.length != SIGNAL_ARGS_NUM) {
             return false;
         }
-
         try {
             String ipTest = InetAddress.getByName(signal[0]).toString();
             if (ipTest.startsWith(IP_START_REGEX)) {

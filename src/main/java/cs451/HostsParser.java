@@ -12,9 +12,8 @@ public class HostsParser {
 
     private static final String HOSTS_KEY = "--hosts";
     private static final String SPACES_REGEX = "\\s+";
-
+    private final List<Host> hosts = new ArrayList<>();
     private String filename;
-    private List<Host> hosts = new ArrayList<>();
 
     public boolean populate(String key, String filename) {
         if (!key.equals(HOSTS_KEY)) {
@@ -22,9 +21,9 @@ public class HostsParser {
         }
 
         this.filename = filename;
-        try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             int lineNum = 1;
-            for(String line; (line = br.readLine()) != null; lineNum++) {
+            for (String line; (line = br.readLine()) != null; lineNum++) {
                 if (line.isBlank()) {
                     continue;
                 }

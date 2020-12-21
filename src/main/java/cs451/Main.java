@@ -2,10 +2,10 @@ package cs451;
 
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class Main {
-    private static Da_proc proc;
+    private static Process proc;
+
     private static void handleSignal() {
         //immediately stop network packet processing
         System.out.println("Immediately stopping network packet processing.");
@@ -38,7 +38,7 @@ public class Main {
         System.out.println("My id is " + parser.myId() + ".");
 
         System.out.println("List of hosts is:");
-        for (Host host: parser.hosts()) {
+        for (Host host : parser.hosts()) {
             System.out.println(host.getId() + ", " + host.getIp() + ", " + host.getPort());
         }
 
@@ -49,26 +49,20 @@ public class Main {
         if (parser.hasConfig()) {
             System.out.println("Config: " + parser.config());
         }
-        int nb_messages = 100;
-
+        int nb_messages = parser.getNumberOfMessages();
 
         Coordinator coordinator = new Coordinator(parser.myId(), parser.barrierIp(), parser.barrierPort(), parser.signalIp(), parser.signalPort());
-         proc = new Da_proc(parser.myId(), (ArrayList<Host>) parser.hosts(), nb_messages, null, parser.output());
-        //Broadcast bc = new FIFOBroadcast((ArrayList<Host>) parser.hosts(), parser.myId(), proc);
-	System.out.println("Waiting for all processes for finish initialization");
+        proc = new Process(parser.myId(), (ArrayList<Host>) parser.hosts(), nb_messages, parser.getDependencies(), parser.output());
+        System.out.println("Waiting for all processes for finish initialization");
         coordinator.waitOnBarrier();
 
-	System.out.println("Broadcasting messages...");
-//all hosts broadcast to all other here
-    proc.start();
+        System.out.println("Broadcasting messages...");
+        //all hosts broadcast to all other here
+        proc.start();
 
-	System.out.println("Signaling end of broadcasting messages");
+        System.out.println("Signaling end of broadcasting messages");
         coordinator.finishedBroadcasting();
         proc.printLogs();
 
-//	while (true) {
-//	    // Sleep for 1 hour
-//	    Thread.sleep(60 * 60 * 1000);
-//	}
     }
 }

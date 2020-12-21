@@ -27,5 +27,18 @@ public class Constants {
 
     // indexes for config
     public static final int CONFIG_VALUE = 10;
-    public static final int TIMEOUT_VAL = 300; // 300ms until timeout
+
+    public static final int DATAGRAM_LENGTH = 1024;
+    public static final int INITIAL_TIMEOUT = 100;
+    public static final int MAX_TIMEOUT_FACTOR = 100;
+    public static final int TIMER_REFRESH_RATE = 10;
+
+    public static final int PACKET_HEADER_SIZE = 5;
+    //The byte that represents an ACK is 6
+    public static final int ACK = 6;
+    //The byte that represents a normal message is 0
+    public static final int NOT_ACK = 0;
+    public static final int BATCH_SIZE = 5000;
+    public static final String EMPTY_MESSAGE = " ";
+
 }
